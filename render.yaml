@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: strong-news-signals-bot
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: "python app.py"
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: ALPHA_VANTAGE_KEY
+        sync: false
+      - key: POLL_SECONDS
+        value: "60"
+      - key: HOURS_WINDOW
+        value: "6"
+      - key: STRONG_SCORE
+        value: "0.35"
+      - key: MIN_TICKER_RELEVANCE
+        value: "0.50"
+      - key: TOPICS
+        value: "earnings,financial_markets,mergers_and_acquisitions,analyst_ratings,legal"
+      - key: KEYWORD_BOOST
+        value: "earnings,results,guidance,acquires,merger,acquisition,sec,investigation,bankruptcy,ceo,resigns,forecast,upgrade,downgrade,beats,misses,raises,cuts"
+      - key: TP_PCT
+        value: "0.005"
+      - key: SL_PCT
+        value: "0.003"
