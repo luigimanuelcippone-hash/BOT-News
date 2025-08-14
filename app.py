@@ -30,7 +30,6 @@ TP_PCT = float(os.getenv("TP_PCT", "0.005"))  # +0.5%
 SL_PCT = float(os.getenv("SL_PCT", "0.003"))  # -0.3%
 
 emitted = set()
-app = Flask(__name__)
 
 # ================= Utils =================
 def _mask(s, keep=4):
@@ -169,7 +168,8 @@ def worker():
         try:
             feed = fetch_latest_news()
             for sig in strong_news_signals(feed):
-                tg_send(sig["text"]); emitted.add(sig["key"])
+                tg_send(sig["text"])
+                emitted.add(sig["key"])
         except Exception as e:
             tg_send(f"⚠️ Errore ciclo bot: {e}")
         time.sleep(POLL_SECONDS)
@@ -185,7 +185,21 @@ def root():
 def health():
     return jsonify({"ok": True})
 
-if __name__ == "__main__":
+# ---- avvio sicuro del worker in parallelo a Flask ----
+_worker_started = False
+def _start_worker_once():
+    global _worker_started
+    if _worker_started:
+        return
+    _worker_started = True
+    print("[BOOT] Avvio worker news in background…")
     threading.Thread(target=worker, daemon=True).start()
+
+# avvia il worker appena il modulo viene caricato (anche su Render)
+_start_worker_once()
+
+if __name__ == "__main__":
+    # sicurezza extra quando eseguito come script
+    _start_worker_once()
     port = int(os.getenv("PORT", "10000"))
     app.run(host="0.0.0.0", port=port)
