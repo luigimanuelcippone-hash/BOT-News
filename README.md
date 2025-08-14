@@ -1,13 +1,22 @@
-# Strong News Signals Bot (Any Ticker) with TP/SL
-- Telegram alerts only (no auto-trading)
+# News Trading Signals Bot (Any Ticker) – TP/SL – ENV tolerant
+
+- Telegram alerts (no auto-trading)
 - Alpha Vantage News Sentiment feed
 - Strong news filters + real-time price for TP/SL
-- Works on Render Free as a Web Service
+- ENV tolerant: accepts multiple variable names and logs masked values on boot
+- Works on Render Free/Starter as a Web Service
 
-## Env vars to set on Render
-- TELEGRAM_TOKEN
-- TELEGRAM_CHAT_ID
-- ALPHA_VANTAGE_KEY
-- (optional) POLL_SECONDS, HOURS_WINDOW, STRONG_SCORE, MIN_TICKER_RELEVANCE, TOPICS, KEYWORD_BOOST, TP_PCT, SL_PCT
+## Files
+- app.py
+- requirements.txt
+- render.yaml
+- README.md
+- .env.example (local dev only)
 
-**Start Command**: `python app.py`
+## Environment variables (Render → Settings → Environment)
+- TELEGRAM_TOKEN or TELEGRAM_BOT_TOKEN (required)
+- TELEGRAM_CHAT_ID or TG_CHAT_ID (required)
+- ALPHA_VANTAGE_KEY or ALPHAVANTAGE_API_KEY (required)
+- Optional: POLL_SECONDS, HOURS_WINDOW, STRONG_SCORE, MIN_TICKER_RELEVANCE, TOPICS, KEYWORD_BOOST, TP_PCT, SL_PCT
+
+Start Command: `python app.py`
